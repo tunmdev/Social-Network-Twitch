@@ -1,5 +1,7 @@
-package com.tunm17.socialnetworktwitch.presentation.login
+package com.tunm17.socialnetworktwitch.presentation.register
 
+import androidx.compose.runtime.Composable
+import com.tunm17.socialnetworktwitch.presentation.login.LoginViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,15 +9,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
@@ -26,10 +25,10 @@ import com.tunm17.socialnetworktwitch.R
 import com.tunm17.socialnetworktwitch.presentation.components.StandardTextField
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceLarge
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceMedium
-import com.tunm17.socialnetworktwitch.ui.theme.SpaceSmall
+import com.tunm17.socialnetworktwitch.ui.util.Screen
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
@@ -61,7 +60,6 @@ fun LoginScreen(
                 onValueChange = {
                     viewModel.setUsernameText(it)
                 },
-                error = viewModel.usernameError.value,
                 hint = stringResource(id = R.string.login_hint)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -74,23 +72,11 @@ fun LoginScreen(
                 onPasswordToggleClick = {
                     viewModel.setShowPassword(it)
                 },
-                error = viewModel.passwordError.value,
                 hint = stringResource(id = R.string.password_hint),
                 keyboardType = KeyboardType.Password
             )
-            Spacer(modifier = Modifier.height(SpaceMedium))
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .align(Alignment.End)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.login),
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            }
         }
-        
+
         Text(
             text = buildAnnotatedString {
                 append(stringResource(id = R.string.dont_have_an_account_yet))

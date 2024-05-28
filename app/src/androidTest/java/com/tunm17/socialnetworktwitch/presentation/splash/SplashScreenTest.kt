@@ -1,5 +1,6 @@
 package com.tunm17.socialnetworktwitch.presentation.splash
 
+import android.transition.Scene
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -16,6 +17,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runBlockingTest
@@ -35,19 +37,28 @@ class SplashScreenTest {
     @RelaxedMockK
     lateinit var navController: NavController
 
+    private val testDispatcher = TestCoroutineDispatcher()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
     }
 
     @Test
-    fun splashScreen_displayAndDisappears() = runBlockingTest {
+    fun splashScreen_displayAndDisappears() = testDispatcher.runBlockingTest {
         composeTestRule.setContent {
             SocialNetworkTwitchTheme {
-                SplashScreen(navController = navController)
+                SplashScreen(navController = navController, dispatcher = testDispatcher)
             }
         }
         composeTestRule.onNodeWithContentDescription(label = "Logo").assertExists()
+
+        testScheduler.apply { advanceTimeBy(Constants.SPLASH_SCREEN_DURATION); runCurrent() }
+
+        verify {
+            navController.popBackStack()
+            navController.navigate(Screen.LoginScreen.route)
+        }
     }
 }
 
