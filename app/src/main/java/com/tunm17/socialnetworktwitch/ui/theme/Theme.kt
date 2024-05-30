@@ -24,6 +24,7 @@ fun SocialNetworkTwitchTheme(
     MaterialTheme(
         colorScheme = DarkColorScheme,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }

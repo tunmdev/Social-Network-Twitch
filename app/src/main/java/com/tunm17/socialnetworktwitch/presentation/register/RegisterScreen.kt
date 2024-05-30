@@ -1,7 +1,7 @@
 package com.tunm17.socialnetworktwitch.presentation.register
 
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
-import com.tunm17.socialnetworktwitch.presentation.login.LoginViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,12 +25,11 @@ import com.tunm17.socialnetworktwitch.R
 import com.tunm17.socialnetworktwitch.presentation.components.StandardTextField
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceLarge
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceMedium
-import com.tunm17.socialnetworktwitch.ui.util.Screen
 
 @Composable
 fun RegisterScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
     Box(
         modifier = Modifier
@@ -50,9 +49,18 @@ fun RegisterScreen(
                 .align(Alignment.Center)
         ) {
             Text(
-                text = stringResource(id = R.string.login),
+                text = stringResource(id = R.string.register),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.displayLarge
+            )
+            Spacer(modifier = Modifier.height(SpaceMedium))
+            StandardTextField(
+                text = viewModel.emailText.value,
+                onValueChange = {
+                    viewModel.setEmailText(it)
+                },
+                error = viewModel.emailError.value,
+                hint = stringResource(id = R.string.email)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
@@ -60,7 +68,8 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.setUsernameText(it)
                 },
-                hint = stringResource(id = R.string.login_hint)
+                error = viewModel.usernameText.value,
+                hint = stringResource(id = R.string.username)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
@@ -79,9 +88,9 @@ fun RegisterScreen(
 
         Text(
             text = buildAnnotatedString {
-                append(stringResource(id = R.string.dont_have_an_account_yet))
+                append(stringResource(id = R.string.already_have_an_account))
                 append(" ")
-                val signUpText = stringResource(id = R.string.sign_up)
+                val signUpText = stringResource(id = R.string.sign_in)
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colorScheme.primary
@@ -92,6 +101,9 @@ fun RegisterScreen(
             },
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.align(Alignment.BottomCenter)
+                .clickable {
+                    navController.popBackStack()
+                }
         )
     }
 
