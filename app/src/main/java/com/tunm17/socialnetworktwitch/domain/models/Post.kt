@@ -1,4 +1,4 @@
-package com.tunm17.socialnetworktwitch.domain
+package com.tunm17.socialnetworktwitch.domain.models
 
 data class Post(
     val username: String,

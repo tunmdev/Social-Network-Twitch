@@ -1,6 +1,5 @@
 package com.tunm17.socialnetworktwitch.presentation.components
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Favorite
@@ -32,7 +30,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -45,9 +42,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tunm17.socialnetworktwitch.R
-import com.tunm17.socialnetworktwitch.domain.Post
+import com.tunm17.socialnetworktwitch.domain.models.Post
 import com.tunm17.socialnetworktwitch.ui.theme.HintGray
-import com.tunm17.socialnetworktwitch.ui.theme.IconSizeLarge
 import com.tunm17.socialnetworktwitch.ui.theme.MediumGray
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceMedium
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceSmall
@@ -124,6 +120,7 @@ fun Post(
                             id = R.string.liked_by_x_people,
                             post.likeCount
                         ),
+                        fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         style = MaterialTheme.typography.displayMedium
                     )
@@ -132,6 +129,7 @@ fun Post(
                             id = R.string.x_comments,
                             post.commentCount
                         ),
+                        fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         style = MaterialTheme.typography.displayMedium
                     )

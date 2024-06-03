@@ -82,7 +82,9 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
-                onClick = { navController.navigate(Screen.MainFeedScreen.route) },
+                onClick = {
+                    navController.navigate(Screen.MainFeedScreen.route)
+                },
                 modifier = Modifier
                     .align(Alignment.End)
             ) {
