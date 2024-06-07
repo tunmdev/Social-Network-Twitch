@@ -45,7 +45,10 @@ class MainActivity : ComponentActivity() {
                             Screen.ActivityScreen.route,
                             Screen.ProfileScreen.route,
                         ),
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        onFabClick = {
+                            navController.navigate(Screen.CreatePostScreen.route)
+                        }
                     ) {
                         Navigation(navController)
                     }

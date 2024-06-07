@@ -1,15 +1,21 @@
 package com.tunm17.socialnetworktwitch.presentation.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
@@ -33,6 +39,7 @@ import com.tunm17.socialnetworktwitch.ui.theme.HintGray
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceMedium
 import com.tunm17.socialnetworktwitch.ui.theme.SpaceSmall
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RowScope.StandardBottomNavItem(
     modifier: Modifier = Modifier,
@@ -48,64 +55,68 @@ fun RowScope.StandardBottomNavItem(
     alertCount?.let {
         require(alertCount >= 0)
     }
+    val lineLength = animateFloatAsState(
+        targetValue = if (selected) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = 300
+        ), label = ""
+    )
+
+
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
         enabled = enabled,
-//        colors = NavigationBarItemDefaults.colors(
-//            selectedTextColor = selectedColor,
-//            unselectedTextColor = unselectedColor
-//        ),
         icon = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(SpaceSmall)
-                    .drawBehind {
-                        if (selected) {
-                            drawLine(
-                                color = if (selected) selectedColor else unselectedColor,
-                                start = Offset(
-                                    size.width / 2f - 10.dp.toPx(),
-                                    size.height
-                                ),
-                                end = Offset(
-                                    size.width / 2f + 10.dp.toPx(),
-                                    size.height
-                                ),
-                                strokeWidth = 2.dp.toPx(),
-                                cap = StrokeCap.Round
-                            )
-                        }
-                    }
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = contentDescription,
-                    modifier = Modifier.align(Alignment.Center),
-                    tint = MaterialTheme.colorScheme.primary
-                )
+            BadgedBox(badge = {
                 if (alertCount != null) {
                     val alertText = if (alertCount > 99) {
                         "99+"
                     } else {
                         alertCount.toString()
                     }
-                    Text(
-                        text = alertText,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        fontSize = 10.sp,
-                        modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .offset(10.dp)
-                            .size(15.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary)
-                    )
+                    Badge {
+                        Text(text = alertText)
+                    }
                 }
+                }) {
+                    Box(
+                        modifier = Modifier
+                            .padding(SpaceSmall)
+                            .drawBehind {
+                                if (selected) {
+                                    drawLine(
+                                        color = if (selected) selectedColor else unselectedColor,
+                                        start = Offset(
+                                            0f - lineLength.value * 2.dp.toPx(),
+                                            size.height + 5.dp.toPx()
+                                        ),
+                                        end = Offset(
+                                            size.width + lineLength.value * 2.dp.toPx(),
+                                            size.height + 5.dp.toPx()
+                                        ),
+                                        strokeWidth = 2.dp.toPx(),
+                                        cap = StrokeCap.Round
+                                    )
+                                }
+                            }
+//                            .background(Color.Red)
+                    ) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = contentDescription,
+                            modifier = Modifier.align(Alignment.Center),
+                            tint = if (selected) MaterialTheme.colorScheme.primary else HintGray
+                        )
+                    }
             }
-        }
+        },
+//        label = {
+//            Text(
+//                text = contentDescription,
+//                color = if (selected) MaterialTheme.colorScheme.primary else HintGray
+//            )
+//        },
+
     )
 }

@@ -4,14 +4,21 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Message
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.outlined.Doorbell
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Message
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -75,7 +82,7 @@ fun StandardScaffold(
         ),
         BottomNavItem(
             route = Screen.ActivityScreen.route,
-            icon = Icons.Outlined.Doorbell,
+            icon = Icons.Outlined.Notifications,
             contentDescription = "Activity"
         ),
         BottomNavItem(
@@ -84,6 +91,7 @@ fun StandardScaffold(
             contentDescription = "Profile"
         ),
     ),
+    onFabClick: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
     Scaffold(
@@ -91,11 +99,11 @@ fun StandardScaffold(
             if (showBottomBar) {
                 BottomAppBar(
                     modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(0.dp)
+                    contentPadding = PaddingValues(0.dp),
                 ) {
                     NavigationBar(
                         modifier = Modifier.fillMaxWidth(),
-                        containerColor = NavigationBarDefaults.containerColor,
+                        containerColor = Color.DarkGray
                     ) {
                         bottomNavItems.forEachIndexed { _, bottomNavItem ->
                             StandardBottomNavItem(
@@ -104,14 +112,30 @@ fun StandardScaffold(
                                 selected = bottomNavItem.route == navController.currentDestination?.route,
                                 alertCount = bottomNavItem.alertCount
                             ) {
-                                navController.navigate(bottomNavItem.route)
+                                if (navController.currentDestination?.route != bottomNavItem.route) {
+                                    navController.navigate(bottomNavItem.route)
+                                }
                             }
                         }
                     }
                 }
             }
         },
-        modifier = modifier
+        modifier = modifier,
+        floatingActionButton = {
+            if (showBottomBar) {
+                FloatingActionButton(
+                    onClick = onFabClick,
+                    containerColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(id = R.string.make_post)
+                    )
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
     ) {
         content()
     }
