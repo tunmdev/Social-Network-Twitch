@@ -84,15 +84,15 @@ fun RowScope.StandardBottomNavItem(
                         modifier = Modifier
                             .padding(SpaceSmall)
                             .drawBehind {
-                                if (selected) {
+                                if (lineLength.value > 0) {
                                     drawLine(
                                         color = if (selected) selectedColor else unselectedColor,
                                         start = Offset(
-                                            0f - lineLength.value * 2.dp.toPx(),
+                                            0f - lineLength.value * 3.dp.toPx(),
                                             size.height + 5.dp.toPx()
                                         ),
                                         end = Offset(
-                                            size.width + lineLength.value * 2.dp.toPx(),
+                                            size.width + lineLength.value * 3.dp.toPx(),
                                             size.height + 5.dp.toPx()
                                         ),
                                         strokeWidth = 2.dp.toPx(),

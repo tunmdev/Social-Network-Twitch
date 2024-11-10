@@ -3,10 +3,13 @@ package com.tunm17.socialnetworktwitch.presentation.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.materialIcon
@@ -16,18 +19,27 @@ import androidx.compose.material.icons.outlined.Message
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -61,12 +73,17 @@ private val bottomNavItems = listOf<BottomNavItem>(
     ),
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun StandardScaffold(
     navController: NavController,
     modifier: Modifier = Modifier,
     showBottomBar: Boolean = true,
+    showToolbar: Boolean = true,
+    toolbarTitle: String? = null,
+    showBackArrow: Boolean = true,
+    navActions: @Composable RowScope.() -> Unit = {},
     viewModel: StandardScaffoldViewModel = hiltViewModel(),
     bottomNavItems: List<BottomNavItem> = listOf<BottomNavItem>(
         BottomNavItem(
@@ -94,7 +111,39 @@ fun StandardScaffold(
     onFabClick: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+//        topBar = {
+//            if (showToolbar) {
+//                TopAppBar (
+//                    colors = TopAppBarDefaults.topAppBarColors(
+//                        containerColor = MaterialTheme.colorScheme.surface,
+//                    ),
+//                    title = {
+//                        Text(
+//                            text = toolbarTitle ?: "Twitch",
+//                            fontWeight = FontWeight.Bold
+//                        )
+//                    },
+//                    navigationIcon = {
+//                        if (showBackArrow) {
+//                            IconButton(onClick = {
+//                                navController.popBackStack()
+//                            }) {
+//                                Icon(
+//                                    imageVector = Icons.Default.ArrowBack,
+//                                    contentDescription = stringResource(id = R.string.back)
+//                                )
+//                            }
+//                        }
+//                    },
+//                    actions = navActions
+//                )
+//            }
+//        },
         bottomBar = {
             if (showBottomBar) {
                 BottomAppBar(
