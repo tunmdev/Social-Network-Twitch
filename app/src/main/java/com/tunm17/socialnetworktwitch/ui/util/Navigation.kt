@@ -6,11 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.tunm17.socialnetworktwitch.domain.models.Post
 import com.tunm17.socialnetworktwitch.presentation.activity.ActivityScreen
 import com.tunm17.socialnetworktwitch.presentation.chat.ChatScreen
 import com.tunm17.socialnetworktwitch.presentation.create_post.CreatePostScreen
 import com.tunm17.socialnetworktwitch.presentation.main_feed.MainFeedScreen
 import com.tunm17.socialnetworktwitch.presentation.login.LoginScreen
+import com.tunm17.socialnetworktwitch.presentation.post_detail.PostDetailScreen
 import com.tunm17.socialnetworktwitch.presentation.profile.ProfileScreen
 import com.tunm17.socialnetworktwitch.presentation.register.RegisterScreen
 import com.tunm17.socialnetworktwitch.presentation.splash.SplashScreen
@@ -46,6 +48,19 @@ fun Navigation(
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostScreen(navController = navController)
+        }
+        composable(Screen.PostDetailScreen.route) {
+            PostDetailScreen(
+                navController = navController,
+                post = Post(
+                    username = "Philip Lacker",
+                    imageUrl = "",
+                    profilePictureUrl = "",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel felis in dui suscipit scelerisque laoreet sit amet lectus.",
+                    likeCount = 17,
+                    commentCount = 7
+                )
+            )
         }
     }
 }

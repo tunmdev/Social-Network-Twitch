@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +22,7 @@ import com.tunm17.socialnetworktwitch.R
 import com.tunm17.socialnetworktwitch.presentation.components.Post
 import com.tunm17.socialnetworktwitch.presentation.components.StandardScaffold
 import com.tunm17.socialnetworktwitch.presentation.components.StandardToolbar
+import com.tunm17.socialnetworktwitch.ui.util.Screen
 
 @Composable
 fun MainFeedScreen(
@@ -41,9 +43,11 @@ fun MainFeedScreen(
             modifier = Modifier.fillMaxWidth(),
             showBackArrow = true,
             navActions = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.navigate(Screen.SearchScreen.route)
+                }) {
                     Icon(
-                        imageVector = Icons.Default.Add,
+                        imageVector = Icons.Default.Search,
                         contentDescription = "",
                         tint = MaterialTheme.colorScheme.onBackground
                     )
@@ -56,10 +60,13 @@ fun MainFeedScreen(
                 username = "Philip Lacker",
                 imageUrl = "",
                 profilePictureUrl = "",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel felis in dui suscipit scelerisque laoreet sit amet lectus. Vestibulum sed nisi eleifend, rutrum purus ac, hendrerit purus. Suspendisse egestas, dolor at molestie condimentum, nisl enim vehicula mauris, ac ornare velit nulla a turpis.",
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel felis in dui suscipit scelerisque laoreet sit amet lectus. Vestibulum sed nisi eleifend, rutrum purus ac, hendrerit purus.",
                 likeCount = 17,
                 commentCount = 7
-            )
+            ),
+            onPostClick = {
+                navController.navigate(Screen.PostDetailScreen.route)
+            }
         )
     }
 }
